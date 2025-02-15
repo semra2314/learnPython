@@ -9,7 +9,7 @@ setup(
         'torch',
     ],
     extras_require={
-        'gpu': ['torch==2.0.1+cu118'],
-        'cpu': ['torch==2.0.1'],
+        'gpu': ['torch==2.0.1+cu118'], # Gpu için gerekli öğe
+        'cpu': ['torch==2.0.1'], # Cpu için gerekli öğe
     },
 )

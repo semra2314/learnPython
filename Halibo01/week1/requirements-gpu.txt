@@ -1,3 +1,4 @@
 # requirements-gpu.txt
--r requirements.txt
 torch >= 2.5.1+cu124 # Must need NVIDIA GPU for this installation
+torchvision >= 0.20.1+cu124
+-r requirements.txt

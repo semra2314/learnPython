@@ -1,2 +1,5 @@
 numpy
+Pillow
+python-dotenv
 torch
+torchvision
