@@ -1,0 +1,4 @@
+# requirements-cpu.txt
+-r requirements.txt
+torch
+torchvision
