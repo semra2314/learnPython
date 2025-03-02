@@ -1,0 +1,10 @@
+file1 = open('file1.txt', 'r')
+file2 = open('file2.txt', 'r')
+content1 = file1.read()
+content2 = file2.read()
+file1.close()
+file2.close()
+destination = open('file3.txt', 'w')
+destination.write(content1 + ' ' + content2)
+destination.close()
+# 3. sorunun cevabı
