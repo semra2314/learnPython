@@ -1,0 +1,117 @@
+def dosya_oku(dosya_adi):
+    """Belirtilen dosyayı okur ve içeriğini döndürür"""
+    try:
+        with open(dosya_adi, 'r', encoding='utf-8') as dosya:
+            return dosya.read()
+    except FileNotFoundError:
+        print(f"Hata: '{dosya_adi}' dosyası bulunamadı!")
+        return None
+    except PermissionError:
+        print(f"Hata: '{dosya_adi}' dosyasına erişim izni yok!")
+        return None
+    except Exception as e:
+        print(f"Hata: '{dosya_adi}' dosyası okunurken bir hata oluştu: {str(e)}")
+        return None
+
+def dosyaya_yaz(dosya_adi, icerik):
+    """Belirtilen içeriği dosyaya yazar"""
+    try:
+        with open(dosya_adi, 'w', encoding='utf-8') as dosya:
+            dosya.write(icerik)
+        print(f"\nDosyalar başarıyla birleştirildi: '{dosya_adi}'")
+        return True
+    except PermissionError:
+        print(f"Hata: '{dosya_adi}' dosyasına yazma izni yok!")
+        return False
+    except Exception as e:
+        print(f"Hata: '{dosya_adi}' dosyasına yazılırken bir hata oluştu: {str(e)}")
+        return False
+
+def dosyalari_birlestir():
+    """İki dosyayı okur ve birleştirir"""
+    try:
+        # Dosya adlarını kullanıcıdan al
+        dosya1 = input("Birinci dosyanın adını girin (örn: dosya1.txt): ")
+        dosya2 = input("İkinci dosyanın adını girin (örn: dosya2.txt): ")
+        hedef_dosya = input("Birleştirilmiş dosyanın adını girin (örn: birlesik.txt): ")
+
+        # Dosya uzantılarını kontrol et ve gerekirse ekle
+        if not dosya1.endswith('.txt'):
+            dosya1 += '.txt'
+        if not dosya2.endswith('.txt'):
+            dosya2 += '.txt'
+        if not hedef_dosya.endswith('.txt'):
+            hedef_dosya += '.txt'
+
+        # Dosyaları oku
+        print("\nDosyalar okunuyor...")
+        icerik1 = dosya_oku(dosya1)
+        icerik2 = dosya_oku(dosya2)
+
+        # Okuma başarısız olduysa programı sonlandır
+        if icerik1 is None or icerik2 is None:
+            print("\nDosya okuma hatası nedeniyle işlem iptal edildi!")
+            return
+
+        # Birleştirme seçeneğini sor
+        print("\nBirleştirme seçenekleri:")
+        print("1. Dosyaları alt alta birleştir")
+        print("2. Dosyaları yan yana birleştir")
+        
+        secim = input("\nBirleştirme yöntemini seçin (1-2): ")
+
+        if secim == "1":
+            # Alt alta birleştir
+            birlesik_icerik = f"{icerik1}\n\n{icerik2}"
+        elif secim == "2":
+            # Yan yana birleştir
+            # İki dosyanın satırlarını al
+            satirlar1 = icerik1.splitlines()
+            satirlar2 = icerik2.splitlines()
+            
+            # En uzun dosyanın satır sayısını bul
+            max_satir = max(len(satirlar1), len(satirlar2))
+            
+            # Satırları yan yana birleştir
+            birlesik_satirlar = []
+            for i in range(max_satir):
+                satir1 = satirlar1[i] if i < len(satirlar1) else ""
+                satir2 = satirlar2[i] if i < len(satirlar2) else ""
+                birlesik_satirlar.append(f"{satir1:<50} | {satir2}")
+            
+            birlesik_icerik = "\n".join(birlesik_satirlar)
+        else:
+            print("Geçersiz seçim! Varsayılan olarak alt alta birleştiriliyor...")
+            birlesik_icerik = f"{icerik1}\n\n{icerik2}"
+
+        # Birleştirilmiş içeriği dosyaya yaz
+        dosyaya_yaz(hedef_dosya, birlesik_icerik)
+
+    except Exception as e:
+        print(f"\nBeklenmeyen bir hata oluştu: {str(e)}")
+
+def main():
+    while True:
+        print("\n=== Dosya Birleştirici ===")
+        print("1. Dosyaları Birleştir")
+        print("2. Çıkış")
+
+        try:
+            secim = input("\nSeçiminiz (1-2): ")
+
+            if secim == "1":
+                dosyalari_birlestir()
+            elif secim == "2":
+                print("\nProgram sonlandırılıyor...")
+                break
+            else:
+                print("Geçersiz seçim! Lütfen 1 veya 2 girin.")
+
+        except KeyboardInterrupt:
+            print("\nProgram kullanıcı tarafından sonlandırıldı.")
+            break
+        except Exception as e:
+            print(f"Beklenmeyen bir hata oluştu: {str(e)}")
+
+if __name__ == "__main__":
+    main() 

@@ -1,0 +1,11 @@
+try:
+    # 1'den 100'e kadar olan sayıları kontrol et
+    for sayi in range(1, 101):
+        # Eğer sayı 10'un katı değilse yazdır
+        if sayi % 10 != 0:
+            print(sayi, end=" ")
+            
+    print("\n\nProgram tamamlandı!")
+    
+except Exception as e:
+    print(f"Bir hata oluştu: {str(e)}")
