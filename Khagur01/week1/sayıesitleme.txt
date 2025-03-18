@@ -1,0 +1,19 @@
+try:
+    # Kullanıcıdan iki sayı al
+    sayi1 = float(input("Birinci sayıyı girin: "))
+    sayi2 = float(input("İkinci sayıyı girin: "))
+
+    # Sayıları karşılaştır ve eşitle
+    if sayi1 == sayi2:
+        print(f"\nSayılar zaten eşit: {sayi1} = {sayi2}")
+    else:
+        if sayi1 > sayi2:
+            sayi1 = sayi2
+        else:
+            sayi2 = sayi1
+        print(f"\nSayılar eşitlendi: {sayi1} = {sayi2}")
+
+except ValueError:
+    print("Hata: Lütfen geçerli bir sayı girin!")
+except Exception as e:
+    print(f"Beklenmeyen bir hata oluştu: {str(e)}")
