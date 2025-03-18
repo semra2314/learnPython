@@ -1,0 +1,80 @@
+# Başlangıç isim listesi
+isimler = ["eşşek", "domuz", "şekker", "keşkek", "leşkek"]
+
+def liste_goster():
+    """Mevcut listeyi gösterir"""
+    if len(isimler) == 0:
+        print("\nListe boş!")
+    else:
+        print("\nMevcut isimler:")
+        for i, isim in enumerate(isimler, 1):
+            print(f"{i}. {isim}")
+
+def isim_ekle():
+    """Listeye yeni isim ekler"""
+    try:
+        yeni_isim = input("\nEklemek istediğin ismi gir ulan: ").strip()
+        if yeni_isim:
+            if yeni_isim in isimler:
+                print(f"\n'{yeni_isim}' zaten listede mevcut!")
+            else:
+                isimler.append(yeni_isim)
+                print(f"\n'{yeni_isim}' yeni ismi ekledik işte!")
+        else:
+            print("\nGeçerli bir isim girsene ulan!")
+    except Exception as e:
+        print(f"\nHata oluştu: {str(e)}")
+
+def isim_sil():
+    """Listeden isim siler"""
+    try:
+        if len(isimler) == 0:
+            print("\nListe zaten boş kör !")
+            return
+
+        liste_goster()
+        secim = input("\nSilmek istediğiniz ismin numarasını girin (1-{}): ".format(len(isimler)))
+        
+        if secim.isdigit():
+            indeks = int(secim) - 1
+            if 0 <= indeks < len(isimler):
+                silinen_isim = isimler.pop(indeks)
+                print(f"\n'{silinen_isim}' başarıyla silindi!")
+            else:
+                print("\nGeçersiz numara!")
+        else:
+            print("\ngeçerli bir numara girsene lan!")
+    except Exception as e:
+        print(f"\nHata oluştu: {str(e)}")
+
+def main():
+    while True:
+        print("\n=== İsim Listesi Yönetimi ===")
+        print("1. İsimleri Göster")
+        print("2. İsim Ekle")
+        print("3. İsim Sil")
+        print("4. Çıkcaksan bura bassana")
+
+        try:
+            secim = input("\nYapmak istediğiniz işlemi seçin (1-4): ")
+
+            if secim == "1":
+                liste_goster()
+            elif secim == "2":
+                isim_ekle()
+            elif secim == "3":
+                isim_sil()
+            elif secim == "4":
+                print("\nProgram sonlandırılıyor...")
+                break
+            else:
+                print("\nGeçersiz seçim! Lütfen 1-4 arasında bir sayı girin.")
+
+        except KeyboardInterrupt:
+            print("\nProgram kullanıcı tarafından sonlandırıldı.")
+            break
+        except Exception as e:
+            print(f"\nBeklenmeyen bir hata oluştu: {str(e)}")
+
+if __name__ == "__main__":
+    main()

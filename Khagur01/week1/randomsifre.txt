@@ -1,0 +1,96 @@
+import random
+import string
+import os
+
+def sifre_olustur(uzunluk=12):
+    """Güçlü bir rastgele şifre oluşturur"""
+    # Şifre için kullanılacak karakterler
+    harfler = string.ascii_letters  # a-z ve A-Z
+    rakamlar = string.digits  # 0-9
+    ozel_karakterler = "!@#$%^&*()_+-=[]{}|;:,.<>?"
+    
+    # Tüm karakterleri birleştir
+    tum_karakterler = harfler + rakamlar + ozel_karakterler
+    
+    # Her kategoriden en az bir karakter içerdiğinden emin ol
+    sifre = [
+        random.choice(harfler.lower()),      # küçük harf
+        random.choice(harfler.upper()),      # büyük harf
+        random.choice(rakamlar),             # rakam
+        random.choice(ozel_karakterler)      # özel karakter
+    ]
+    
+    # Kalan karakterleri rastgele seç
+    for _ in range(uzunluk - 4):
+        sifre.append(random.choice(tum_karakterler))
+    
+    # Karakterlerin sırasını karıştır
+    random.shuffle(sifre)
+    
+    return ''.join(sifre)
+
+def sifre_kaydet(sifre):
+    """Şifreyi dosyaya kaydeder"""
+    try:
+        with open("sifreler.txt", "w", encoding="utf-8") as dosya:
+            dosya.write(sifre)
+        print("Şifre başarıyla kaydedildi!")
+    except Exception as e:
+        print(f"Hata: Şifre kaydedilemedi! {str(e)}")
+
+def sifre_oku():
+    """Kaydedilmiş şifreyi okur"""
+    try:
+        with open("sifreler.txt", "r", encoding="utf-8") as dosya:
+            return dosya.read().strip()
+    except FileNotFoundError:
+        print("Hata: Şifre dosyası bulunamadı!")
+        return None
+    except Exception as e:
+        print(f"Hata: Şifre okunamadı! {str(e)}")
+        return None
+
+def main():
+    while True:
+        print("\n=== Şifre Oluşturucu ===")
+        print("1. Yeni şifre oluştur")
+        print("2. Mevcut şifreyi göster")
+        print("3. Çıkış")
+        
+        try:
+            secim = input("\nSeçiminiz (1-3): ")
+            
+            if secim == "1":
+                try:
+                    uzunluk = int(input("Şifre uzunluğu (minimum 8): "))
+                    if uzunluk < 8:
+                        print("Şifre uzunluğu en az 8 karakter olmalıdır!")
+                        continue
+                    
+                    yeni_sifre = sifre_olustur(uzunluk)
+                    print(f"\nOluşturulan şifre: {yeni_sifre}")
+                    sifre_kaydet(yeni_sifre)
+                    
+                except ValueError:
+                    print("Hata: Geçerli bir sayı giriniz!")
+                    
+            elif secim == "2":
+                mevcut_sifre = sifre_oku()
+                if mevcut_sifre:
+                    print(f"\nKaydedilmiş şifre: {mevcut_sifre}")
+                
+            elif secim == "3":
+                print("Program sonlandırılıyor...")
+                break
+                
+            else:
+                print("Geçersiz seçim! Lütfen 1-3 arasında bir sayı giriniz.")
+                
+        except KeyboardInterrupt:
+            print("\nProgram kullanıcı tarafından sonlandırıldı.")
+            break
+        except Exception as e:
+            print(f"Beklenmeyen bir hata oluştu: {str(e)}")
+
+if __name__ == "__main__":
+    main()

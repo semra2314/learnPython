@@ -1,0 +1,129 @@
+import math
+
+def toplama(x, y):
+    return x + y
+
+def cikarma(x, y):
+    return x - y
+
+def carpma(x, y):
+    return x * y
+
+def bolme(x, y):
+    if y == 0:
+        raise ValueError("Sıfıra bölme hatası!")
+    return x / y
+
+def us_alma(x, y):
+    return x ** y
+
+def karekok(x):
+    if x < 0:
+        raise ValueError("Negatif sayının karekökü alınamaz!")
+    return math.sqrt(x)
+
+def yuzde(x):
+    return x / 100
+
+def faktoriyel(x):
+    if x < 0:
+        raise ValueError("Negatif sayının faktoriyeli hesaplanamaz!")
+    if x == 0:
+        return 1
+    return x * faktoriyel(x - 1)
+
+def main():
+    while True:
+        try:
+            print("\n=== Gelişmiş Hesap Makinesi ===")
+            print("1. Toplama")
+            print("2. Çıkarma")
+            print("3. Çarpma")
+            print("4. Bölme")
+            print("5. Üs Alma")
+            print("6. Karekök")
+            print("7. Yüzde")
+            print("8. Faktöriyel")
+            print("9. Çıkış")
+
+            secim = input("\nYapmak istediğiniz işlemi seçin (1-9): ")
+
+            if secim == '9':
+                print("Program sonlandırılıyor...")
+                break
+
+            if secim in ['1', '2', '3', '4', '5']:
+                try:
+                    sayi1 = float(input("Birinci sayıyı girin: "))
+                    sayi2 = float(input("İkinci sayıyı girin: "))
+                except ValueError:
+                    print("Hata: Lütfen geçerli bir sayı girin!")
+                    continue
+
+                if secim == '1':
+                    sonuc = toplama(sayi1, sayi2)
+                    print(f"\nSonuç: {sayi1} + {sayi2} = {sonuc}")
+                
+                elif secim == '2':
+                    sonuc = cikarma(sayi1, sayi2)
+                    print(f"\nSonuç: {sayi1} - {sayi2} = {sonuc}")
+                
+                elif secim == '3':
+                    sonuc = carpma(sayi1, sayi2)
+                    print(f"\nSonuç: {sayi1} × {sayi2} = {sonuc}")
+                
+                elif secim == '4':
+                    try:
+                        sonuc = bolme(sayi1, sayi2)
+                        print(f"\nSonuç: {sayi1} ÷ {sayi2} = {sonuc}")
+                    except ValueError as e:
+                        print(f"Hata: {e}")
+                
+                elif secim == '5':
+                    try:
+                        sonuc = us_alma(sayi1, sayi2)
+                        print(f"\nSonuç: {sayi1} ^ {sayi2} = {sonuc}")
+                    except OverflowError:
+                        print("Hata: Sonuç çok büyük!")
+
+            elif secim in ['6', '7', '8']:
+                try:
+                    sayi = float(input("Bir sayı girin: "))
+                except ValueError:
+                    print("Hata: Lütfen geçerli bir sayı girin!")
+                    continue
+
+                if secim == '6':
+                    try:
+                        sonuc = karekok(sayi)
+                        print(f"\nSonuç: √{sayi} = {sonuc}")
+                    except ValueError as e:
+                        print(f"Hata: {e}")
+
+                elif secim == '7':
+                    sonuc = yuzde(sayi)
+                    print(f"\nSonuç: %{sayi} = {sonuc}")
+
+                elif secim == '8':
+                    try:
+                        if sayi.is_integer():
+                            sonuc = faktoriyel(int(sayi))
+                            print(f"\nSonuç: {int(sayi)}! = {sonuc}")
+                        else:
+                            print("Hata: Faktöriyel için tam sayı girilmelidir!")
+                    except ValueError as e:
+                        print(f"Hata: {e}")
+                    except RecursionError:
+                        print("Hata: Sayı çok büyük!")
+
+            else:
+                print("Geçersiz seçim! Lütfen 1-9 arasında bir sayı girin.")
+
+        except KeyboardInterrupt:
+            print("\nProgram kullanıcı tarafından sonlandırıldı.")
+            break
+        except Exception as e:
+            print(f"Beklenmeyen bir hata oluştu: {str(e)}")
+
+if __name__ == "__main__":
+    main()
